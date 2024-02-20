@@ -29,7 +29,7 @@ def get_crypto_price(pair):
         return None
 
 # Fungsi untuk memonitor kenaikan atau penurunan harga
-async def monitor_price_change(bot_token, chat_id, threshold_percent=5):
+async def monitor_price_change(bot_token, chat_id, threshold_percent=10):
     all_pairs = get_all_pairs()
 
     # Inisialisasi harga awal untuk setiap pasangan
@@ -67,9 +67,12 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Telegram Crypto Price Monitor')
     parser.add_argument('--bot_token', required=True, help='Telegram Bot Token')
     parser.add_argument('--chat_id', required=True, help='Telegram Chat ID')
-    parser.add_argument('--threshold_percent', type=float, default=5, help='Percentage increase threshold')
+    parser.add_argument('--threshold_percent', type=float, default=10, help='Percentage increase threshold')
 
     args = parser.parse_args()
+
+    # Koin-koin yang tidak ingin dimonitor
+    excluded_coins = ['ASIXV2', 'HIBS', 'AOA', 'HITOP', 'REV', 'SHAN', 'CIND', 'EM', 'DENT', 'GSC']
 
     asyncio.run(monitor_price_change(args.bot_token, args.chat_id, args.threshold_percent))
 
